@@ -77,11 +77,12 @@ trait MakesHttpCalls
      *
      * @throws \RenokiCo\PhpK8s\Exceptions\KubernetesAPIException
      */
-    public function call(string $method, string $path, string $payload = '', array $query = ['pretty' => 1])
+    public function call(string $method, string $path, string $payload = '', array $query = ['pretty' => 1], array $headers = [])
     {
         try {
             $response = $this->getClient()->request($method, $this->getCallableUrl($path, $query), [
                 RequestOptions::BODY => $payload,
+                'headers' => $headers,
             ]);
         } catch (ClientException $e) {
             $errorPayload = json_decode((string) $e->getResponse()->getBody(), true);
@@ -107,11 +108,11 @@ trait MakesHttpCalls
      *
      * @throws \RenokiCo\PhpK8s\Exceptions\KubernetesAPIException
      */
-    protected function makeRequest(string $method, string $path, string $payload = '', array $query = ['pretty' => 1])
+    protected function makeRequest(string $method, string $path, string $payload = '', array $query = ['pretty' => 1], array $headers = [])
     {
         $resourceClass = $this->resourceClass;
 
-        $response = $this->call($method, $path, $payload, $query);
+        $response = $this->call($method, $path, $payload, $query, $headers);
 
         $json = @json_decode($response->getBody(), true);
 

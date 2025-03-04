@@ -146,6 +146,7 @@ class KubernetesCluster
         self::GET_OP => 'GET',
         self::CREATE_OP => 'POST',
         self::REPLACE_OP => 'PUT',
+        self::APPLY_OP => 'PATCH',
         self::DELETE_OP => 'DELETE',
         self::LOG_OP => 'GET',
         self::WATCH_OP => 'GET',
@@ -157,6 +158,7 @@ class KubernetesCluster
     const GET_OP = 'get';
     const CREATE_OP = 'create';
     const REPLACE_OP = 'replace';
+    const APPLY_OP = 'apply';
     const DELETE_OP = 'delete';
     const LOG_OP = 'logs';
     const WATCH_OP = 'watch';
@@ -199,7 +201,7 @@ class KubernetesCluster
      *
      * @throws \RenokiCo\PhpK8s\Exceptions\KubernetesAPIException
      */
-    public function runOperation(string $operation, string $path, $payload = '', array $query = ['pretty' => 1])
+    public function runOperation(string $operation, string $path, $payload = '', array $query = ['pretty' => 1], array $headers = [])
     {
         switch ($operation) {
             case static::WATCH_OP: return $this->watchPath($path, $payload, $query);
@@ -215,7 +217,7 @@ class KubernetesCluster
 
         $method = static::$operations[$operation] ?? static::$operations[static::GET_OP];
 
-        return $this->makeRequest($method, $path, $payload, $query);
+        return $this->makeRequest($method, $path, $payload, $query, $headers);
     }
 
     /**

@@ -256,6 +256,29 @@ trait RunsClusterOperations
     }
 
     /**
+     * Apply the resource.
+     *
+     * @param  array  $query
+     * @return \RenokiCo\PhpK8s\Kinds\K8sResource
+     *
+     * @throws \RenokiCo\PhpK8s\Exceptions\KubernetesAPIException
+     */
+    public function apply(array $query = ['pretty' => 1])
+    {
+        return $this->cluster
+            ->setResourceClass(get_class($this))
+            ->runOperation(
+                KubernetesCluster::APPLY_OP,
+                $this->allResourcesPath(),
+                $this->toJsonPayload(),
+                $query,
+                [
+                    'Content-Type' => 'application/apply-patch+yaml', // application/apply-patch+yaml
+                ]
+            );
+    }
+
+    /**
      * Delete the resource.
      *
      * @param  array  $query
