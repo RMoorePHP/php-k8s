@@ -269,7 +269,7 @@ trait RunsClusterOperations
             ->setResourceClass(get_class($this))
             ->runOperation(
                 KubernetesCluster::APPLY_OP,
-                $this->allResourcesPath(),
+                $this->resourcePath(),
                 $this->toJsonPayload(),
                 $query,
                 [
