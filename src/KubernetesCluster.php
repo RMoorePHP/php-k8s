@@ -135,6 +135,8 @@ class KubernetesCluster
      */
     protected $resourceClass;
 
+    public $fieldManagerName;
+
     /**
      * List all named operations with
      * their respective methods for the
@@ -186,6 +188,12 @@ class KubernetesCluster
     public function setResourceClass(string $resourceClass)
     {
         $this->resourceClass = $resourceClass;
+
+        return $this;
+    }
+
+    public function setFieldManager(string $fieldManager) {
+        $this->fieldManagerName = $fieldManager;
 
         return $this;
     }

@@ -265,6 +265,8 @@ trait RunsClusterOperations
      */
     public function apply(array $query = ['pretty' => 1])
     {
+        $query['fieldManager'] ??= $this->cluster->fieldManagerName;
+
         return $this->cluster
             ->setResourceClass(get_class($this))
             ->runOperation(
