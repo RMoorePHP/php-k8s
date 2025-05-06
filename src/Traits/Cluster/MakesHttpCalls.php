@@ -87,6 +87,8 @@ trait MakesHttpCalls
         } catch (ClientException $e) {
             $errorPayload = json_decode((string) $e->getResponse()->getBody(), true);
 
+            dump($errorPayload);
+
             throw new KubernetesAPIException(
                 $e->getMessage(),
                 $errorPayload['code'] ?? 0,
